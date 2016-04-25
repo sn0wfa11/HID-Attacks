@@ -1,0 +1,3 @@
+run post/windows/manage/priv_migrate
+run post/cleanup
+run post/windows/manage/autoroute
