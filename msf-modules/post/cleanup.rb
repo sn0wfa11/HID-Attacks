@@ -25,9 +25,13 @@ class MetasploitModule < Msf::Post
         This module will cleanup after bypassuac and USB Exploits.
       },
       'License'       => MSF_LICENSE,
-      'Author'        => [ 'sn0wfa11'],
+      'Author'        => [ 'Josh Hale "sn0wfa11"'],
       'Platform'      => 'win',
-      'SessionTypes'  => [ 'meterpreter' ]
+      'SessionTypes'  => [ 'meterpreter' ],
+      'References'    =>
+        [
+          ['URL', 'https://github.com/jhale85446/HID-Attacks']
+        ]
     ))
     end
 
