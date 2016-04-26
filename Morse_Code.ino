@@ -9,6 +9,9 @@ int pause_element = dot_length;
 int pause_char = dot_length * 2; // standard is *3 (one after last element, then two more)
 int pause_word = dot_length * 4; // standard is *7 (one after last element, four at end of word, then two more at end of char)
 
+// This function will produce a dot on the led
+//
+// @return [void] A useful return value is not expected
 void led_dot()
 {
   digitalWrite(led, HIGH);
@@ -17,6 +20,9 @@ void led_dot()
   delay(pause_element);
 }
 
+// This function will produce a dash on the led
+//
+// @return [void] A useful return value is not expected
 void led_dash()
 {
   digitalWrite(led, HIGH);
@@ -26,6 +32,11 @@ void led_dash()
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------
+// This function will output the string provided as morse code on the LED
+//
+// @string [string] Input string to be displayed as morse code on the LED
+//
+// @return [void] A useful return value is not expected
 void morse_code(char string[])
 {
   int count, length;
@@ -38,6 +49,12 @@ void morse_code(char string[])
   }
 }
 
+// This function will convert a char to morse code
+// H = Dash, and D = Dot
+//
+// @in [char] input char
+//
+// @return [string] string of dashes or dot to be displayed on LED
 char * code_string(char in)
 {
   if ((in == 'a') || (in == 'A')) return "DH";
@@ -80,6 +97,11 @@ char * code_string(char in)
     return " ";
 }
 
+// This function will produce a dash or dot depending on the input
+//
+// @code [string] Input string to convert to light dashes or dots
+//
+// @return [void] A useful return value is not expected
 void blink_code(char code[])
 {
 int count, length;
