@@ -3,4 +3,4 @@ This repository contains Arduino code and Metasploit modules that are part of an
 
 The Arduino code was developted for the teensy 3.2 device.
 
-More information to be added soon.
+More information including wiki pages on how to use all of this will be published soon.
