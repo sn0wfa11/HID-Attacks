@@ -47,10 +47,10 @@ class MetasploitModule < Msf::Post
 
     print_status("Providing feedback for Teensy.")
 
-    if vbscript_feedback(key)
+    if powershell_feedback(key)
       print_good("Feedback sent!")
     else
-      if powershell_feedback(key)
+      if vbscript_feedback(key)
         print_good("Feedback sent!")
       else
         print_error("Unable to send feedback!")
