@@ -5,6 +5,8 @@ The Arduino code was developted for the Teensy 3.2 device.
 
 Please see the [project's wiki page](https://github.com/jhale85446/HID-Attacks/wiki) for more information.
 
+***
+
 Portions of this project were modified and expanded upon from the following HID Projects:
 * Offensive Security's "Advanced Teensy Penetration Testing Payloads Project" - Sept 2012
   * [Project Page](https://www.offensive-security.com/offsec/advanced-teensy-penetration-testing-payloads/)
