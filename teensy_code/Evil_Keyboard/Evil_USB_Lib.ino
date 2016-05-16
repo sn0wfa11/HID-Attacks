@@ -19,33 +19,47 @@
 #define CPU_RESTART_VAL 0x5FA0004
 #define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL)
 
-// Wait for drivers to load
+// This function waits for drivers to load.
+// Note that it uses the Numlock key as an indicator.
+//
+// @speed [unsigned int] Time in millisecs between numlock presses
+// @delay [unsigned int] Time to wait in millisecs after drivers have been loaded.
+//
+// @return [void] A useful return value is not expected here
+
 void wait_for_drivers(unsigned int speed, unsigned int dly_time)
 {
   unsigned int cnt = 0;
-  bool numLockTrap = is_num_on();
-  while(numLockTrap == is_num_on())
+  bool numLockTrap = is_num_on();  // Get the current status of the Numlock key
+  while(numLockTrap == is_num_on()) // Press the Numlock key using @speed as the interval until the Numlock status changes.
   {
     led_blink(3,80);
     cnt++;
     press_numlock();
     delay(speed);
   }
-  press_numlock();
-  delay(dly_time);
-  if (cnt > 18)
+  press_numlock(); // Press Numlock again to revert it to its original state.
+  delay(dly_time); // Wait the dely time
+  if (cnt > 18)    // If the cycle lasted longer than 18 presses restart the board before proceeding.
   {
     led_blink(2, 400);
     delay(10000);
     led_blink(3, 400);
     led_blink(3, 80);
     led_blink(3, 400);
-    CPU_RESTART;
+    CPU_RESTART;   // This was necessary for some computers that would not correctly register the Teensy until after it restarted.
   }
 }
 
 // ----------------------------------------------------------------------------------------------------------------
 // LED Functions
+
+// This function blinks the Teensy's onboard LED.
+//
+// @blinkrate [int] Number of times to blink the LED
+// @delaytime [int] Time to wait in millisecs between blinks.
+//
+// @return [void] A useful return value is not expected here
 
 void led_blink(int blinkrate,int delaytime)
 {
@@ -60,12 +74,25 @@ void led_blink(int blinkrate,int delaytime)
 
 // ---------------------------------------------------------------------------------------------------------------
 // Standard Key functions
+
+// This function clears the Teensy's key inputs.
+// This is a necessary function for Teensy operation.
+//
+// @return [void] A useful return value is not expected here
+
 void clear_key(void)
 {
   Keyboard.set_modifier(0);
   Keyboard.set_key1(0);
   Keyboard.send_now();
 }
+
+// This function presses the designated key the designated number of times.
+//
+// @key [int] Key to be pressed.
+// @amount [int] Number of times to press the key.
+//
+// @return [void] A useful return value is not expected here
 
 void key_press(int key, int amount)
 {
@@ -77,6 +104,13 @@ void key_press(int key, int amount)
   }
 }
 
+// This function presses the designated key the designated number of times with a 25 millisec delay between presses.
+//
+// @key [int] Key to be pressed.
+// @amount [int] Number of times to press the key.
+//
+// @return [void] A useful return value is not expected here
+
 void key_press_delay(int key, int amount)
 {
   for (int x = 0; x < amount; x++)
@@ -87,6 +121,13 @@ void key_press_delay(int key, int amount)
     clear_key();
   }
 }
+
+// This function presses the designated key the designated number of times with a 4 millisec delay between presses.
+//
+// @key [int] Key to be pressed.
+// @amount [int] Number of times to press the key.
+//
+// @return [void] A useful return value is not expected here
 
 void key_press_short_delay(int key, int amount)
 {
@@ -100,6 +141,12 @@ void key_press_short_delay(int key, int amount)
 }
 // ---------------------------------------------------------------------------------------------------------------
 // Functions to control the computer
+
+// This function runs a specific command on a Windows computer.
+//
+// @cmd [string] Command to be run.
+//
+// @return [void] A useful return value is not expected here
 
 void run_command(char cmd[])  // uses the run prompt which has a limit of 260 characters
 {
@@ -119,6 +166,11 @@ void run_command(char cmd[])  // uses the run prompt which has a limit of 260 ch
   Keyboard.println(cmd);
 }
 
+// This function hides an active Windows window.
+// This function was specificly designed to hid a Windows Command Prompt window.
+//
+// @return [void] A useful return value is not expected here
+
 void hide_window()
 {
   Keyboard.set_modifier(MODIFIERKEY_ALT);
@@ -131,6 +183,10 @@ void hide_window()
   key_press_delay(KEY_ENTER, 1);
   delay(200);
 }
+
+// This function opens the Windows start menu.
+//
+// @return [void] A useful return value is not expected here
 
 void open_start_menu()
 {
@@ -146,17 +202,33 @@ void open_start_menu()
   clear_key();
 }
 
+// This function opens a Windows Command Prompt.
+//
+// @return [void] A useful return value is not expected here
+
 void open_cmd_prompt()
 {
   run_command("cmd");
   delay(600);
 }
 
+// This function opens a Windows Command Prompt and runs the specified command.
+//
+// @command [string] Command to be run in the command prompt.
+//
+// @return [void] A useful return value is not expected here
+
 void cmd_prompt_run(char cmd[])
 {
   open_cmd_prompt();
   Keyboard.println(cmd);
 }
+
+// This function opens a Windows Command Prompt, hides the window, and runs the specified command.
+//
+// @command [string] Command to be run in the command prompt.
+//
+// @return [void] A useful return value is not expected here
 
 void run_and_hide(char cmd[])
 {
@@ -167,10 +239,22 @@ void run_and_hide(char cmd[])
 
 // ---------------------------------------------------------------------------------------------------------------
 // NUM, SCROLL, CAPS Led Functions and checking
+
+// This function returns the status of the keyboard leds.
 int ledkeys(void)       {return int(keyboard_leds);}
+
+// These functions return the status of the scroll, numlock, and capslock keys.
+// 
+// @return [true] the key is on.
+// @return [false] the key is off.
+
 bool is_scroll_on(void) {return ((ledkeys() & 4) == 4) ? true : false;}
 bool is_caps_on(void)   {return ((ledkeys() & 2) == 2) ? true : false;}
 bool is_num_on(void)    {return ((ledkeys() & 1) == 1) ? true : false;}
+
+// This function presses the num lock key.
+//
+// @return [void] A useful return value is not expected here
 
 void press_numlock(void)
 {
@@ -180,6 +264,10 @@ void press_numlock(void)
   clear_key();
 }
 
+// This function presses the scroll lock key.
+//
+// @return [void] A useful return value is not expected here
+
 void press_scrolllock(void)
 {
   Keyboard.set_key1(KEY_SCROLL_LOCK);
@@ -187,6 +275,10 @@ void press_scrolllock(void)
   delay(25);
   clear_key();
 }
+
+// This function presses the caps lock key.
+//
+// @return [void] A useful return value is not expected here
 
 void press_capslock(void)
 {
@@ -196,11 +288,21 @@ void press_capslock(void)
   clear_key();
 }
 
+// This function makes sure that num lock is off.
+// If not, it turns it off.
+//
+// @return [void] A useful return value is not expected here
+
 void numlock_off(void)
 {
   if (is_num_on())
     press_numlock();
 }
+
+// This function makes sure that caps lock is off.
+// If not, it turns it off.
+//
+// @return [void] A useful return value is not expected here
 
 void capslock_off(void)
 {
@@ -208,11 +310,21 @@ void capslock_off(void)
     press_capslock();
 }
 
+// This function makes sure that scroll lock is off.
+// If not, it turns it off.
+//
+// @return [void] A useful return value is not expected here
+
 void scrolllock_off(void)
 {
   if (is_scroll_on())
     press_scrolllock();
 }
+
+// This function makes sure that num lock is on.
+// If not, it turns it on.
+//
+// @return [void] A useful return value is not expected here
 
 void numlock_on(void)
 {
@@ -220,11 +332,21 @@ void numlock_on(void)
     press_numlock();
 }
 
+// This function makes sure that caps lock is on.
+// If not, it turns it on.
+//
+// @return [void] A useful return value is not expected here
+
 void capslock_on(void)
 {
   if (!is_caps_on())
     press_capslock();
 }
+
+// This function makes sure that scroll lock is on.
+// If not, it turns it on.
+//
+// @return [void] A useful return value is not expected here
 
 void scrolllock_on(void)
 {
@@ -232,17 +354,35 @@ void scrolllock_on(void)
     press_scrolllock();
 }
 
+// This function makes will return the num lock to its saved state.
+//
+// @old_status [bool] True = on, false = off
+//
+// @return [void] A useful return value is not expected here
+
 void reset_numlock(bool old_status)
 {
   if (is_num_on() != old_status)
     press_numlock();
 }
 
+// This function makes will return the caps lock to its saved state.
+//
+// @old_status [bool] True = on, false = off
+//
+// @return [void] A useful return value is not expected here
+
 void reset_capslock(bool old_status)
 {
   if (is_caps_on() != old_status)
     press_capslock();
 }
+
+// This function makes will return the caps lock to its saved state.
+//
+// @old_status [bool] True = on, false = off
+//
+// @return [void] A useful return value is not expected here
 
 void reset_scrolllock(bool old_status)
 {
