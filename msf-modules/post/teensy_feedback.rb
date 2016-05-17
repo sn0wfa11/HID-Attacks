@@ -60,6 +60,8 @@ class MetasploitModule < Msf::Post
 
   # This function will execute a powershell command that presses the selected key.
   #
+  # @key [string class] The key to be pressed. (NUMLOCK, CAPSLOCK, or SCROLLLOCK)
+  #
   # @return [TrueClass] If the feedback was sent.
   # @return [FalseClass] If the feedback was unable to be sent.
   def powershell_feedback(key)
@@ -74,6 +76,8 @@ class MetasploitModule < Msf::Post
 
   # This function will make a vbscript on the remote computer that presses the selected key.
   # It will execute the vbscript then cleanup after itself.
+  #
+  # @key [string class] The key to be pressed. (NUMLOCK, CAPSLOCK, or SCROLLLOCK)
   #
   # @return [TrueClass] If the feedback was sent.
   # @return [FalseClass] If the feedback was unable to be sent.
@@ -116,6 +120,8 @@ class MetasploitModule < Msf::Post
   end
 
   # This function will delete a file.
+  #
+  # @file [string class] The full path and file to be deleted
   #
   # @return [TrueClass] If the file was deleted or not present to begin with
   # @return [FalseClass] If the file unable to be deleted.

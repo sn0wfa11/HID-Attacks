@@ -86,6 +86,8 @@ class MetasploitModule < Msf::Post
 
   # This function will return the current user's homepath.
   #
+  # @return User's home path if the user is not a system account
+  # @return nil if the user is a system account
   def get_homepath
     sid = client.sys.config.getsid
     profile_path = registry_getvaldata("HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProfileList\\#{sid}","ProfileImagePath")
@@ -102,6 +104,8 @@ class MetasploitModule < Msf::Post
   end
 
   # This function will delete a file.
+  #
+  # @file [string class] The full path and file to be deleted
   #
   # @return [TrueClass] If the file was deleted or not present to begin with
   # @return [FalseClass] If the file unable to be deleted.
