@@ -16,7 +16,7 @@ class MetasploitModule < Msf::Auxiliary
         since it is text instead of a compiled executable.
       },
       'License'       => MSF_LICENSE,
-      'Author'        => [ 'Josh Hale "sn0wfa11"'].
+      'Author'        => [ 'Josh Hale "sn0wfa11"'],
       'References'    =>
         [
           ['URL', 'https://github.com/jhale85446/HID-Attacks']
@@ -26,9 +26,9 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         OptString.new('SCRIPT', [ false, "The script to be encoded.", nil]),
-        OptString.new('URL', [ false, "URL or IPv4 Address of web server", "192.168.1.101"]),
+        OptString.new('URL', [ false, "URL or IPv4 Address of web server", "173.23.161.186"]),
         OptString.new('PORT', [ false, "Port used for the download on web server", "12056"]),
-        OptString.new('FILE', [ false, "Name of file on web server to download", "x.bat"]),
+        OptString.new('FILE', [ false, "Name of file on web server to download", "u.bat"]),
 	OptEnum.new('CMD', [true, 'Specify the module command', 'default', ['default','custom']])
       ], self.class)
     end
