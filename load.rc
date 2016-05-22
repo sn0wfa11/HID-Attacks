@@ -1,2 +1,3 @@
+# Load path for the provided MSF Modules
 loadpath /home/jhale/git/HID-Attacks/msf-modules
 

